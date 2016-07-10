@@ -5,7 +5,7 @@
  * Date: 7/10/16
  * Time: 1:14 AM
  */
-$loader = require __DIR__.'/vendor/autoload.php';
+$loader = require __DIR__ . '/vendor/autoload.php';
 
 $configValues = require __DIR__ . '/config/config.php';
 
@@ -32,7 +32,7 @@ $config->setAutoGenerateProxyClasses(true);
 // Driver (4)
 $driverImpl = new Doctrine\ORM\Mapping\Driver\AnnotationDriver(
     new Doctrine\Common\Annotations\AnnotationReader(),
-    array(__DIR__.'/src/Workshop/Entity')
+    array(__DIR__ . '/src/Tutorial/Entity')
 );
 $config->setMetadataDriverImpl($driverImpl);
 

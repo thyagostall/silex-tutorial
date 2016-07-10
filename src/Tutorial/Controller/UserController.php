@@ -9,12 +9,21 @@
 namespace Tutorial\Controller;
 
 
+use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserController
 {
-    public function allUsers() {
-        $data = array("method" => "/");
+    public function allUsers(Application $app) {
+        $em = $app['orm.em'];
+        $userRepository = $em->getRepository('Tutorial\Entity\User');
+        $users = $userRepository->findAll();
+
+        $data = [];
+        foreach ($users as $user) {
+            array_push($data, $user->toArray());
+        }
+
         return new JsonResponse($data, 200);
     }
 }
