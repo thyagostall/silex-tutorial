@@ -1,0 +1,9 @@
+{
+    "require": {
+        "silex/silex": "1.3.*@dev",
+        "twig/twig": "1.17.*@dev"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "dev-master"
+    }
+}
