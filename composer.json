@@ -4,7 +4,8 @@
         "twig/twig": "~1.17",
         "doctrine/orm": "*",
         "dflydev/doctrine-orm-service-provider": "1.0.*@dev",
-        "symfony/console": "2.6.*"
+        "symfony/console": "2.6.*",
+        "cnam/security-jwt-service-provider": "1.*"
     },
     "autoload": {
         "psr-4": {
