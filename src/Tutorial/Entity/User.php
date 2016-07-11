@@ -9,12 +9,13 @@
 namespace Tutorial\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="User")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -37,7 +38,21 @@ class User
      *
      * @var string
      */
-    protected $email;
+    protected $userName;
+
+    /**
+     * @ORM\Column(type="text")
+     *
+     * @var string
+     */
+    protected $password;
+
+    /**
+     * @ORM\Column(type="text")
+     *
+     * @var string
+     */
+    protected $salt;
 
     /**
      * @return int
@@ -74,24 +89,88 @@ class User
     /**
      * @return string
      */
-    public function getEmail()
+    public function getUserName()
     {
-        return $this->email;
+        return $this->userName;
     }
 
     /**
-     * @param string $email
+     * @param string $userName
      */
-    public function setEmail($email)
+    public function setUserName($userName)
     {
-        $this->email = $email;
+        $this->userName = $userName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * @param string $salt
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
     }
 
     public function toArray() {
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "email" => $this->email
+            "userName" => $this->userName
         ];
+    }
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
+     */
+    public function getRoles()
+    {
+        return array();
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }

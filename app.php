@@ -1,13 +1,16 @@
 <?php
 
+date_default_timezone_set('America/Sao_Paulo');
+
 require __DIR__ . "/vendor/autoload.php";
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\Security\Core\User\InMemoryUserProvider;
+use Symfony\Component\Security\Core\User\User;
 use Tutorial\Controller\UserController;
+use Tutorial\Provider\DatabaseUserProvider;
 
 $config = require_once __DIR__ . "/config/config.php";
 if (!$config || !is_array($config)) {
@@ -21,23 +24,14 @@ $app['security.jwt'] = [
     'secret_key' => 'Very_secret_key',
     'life_time'  => 86400,
     'options'    => [
-        'username_claim' => 'sub', // default name, option specifying claim containing username
-        'header_name' => 'X-Access-Token', // default null, option for usage normal oauth2 header
+        'username_claim' => 'name', // default name, option specifying claim containing username
+        'header_name' => 'Authorization', // default null, option for usage normal oauth2 header
         'token_prefix' => 'Bearer',
     ]
 ];
 
 $app['users'] = function () use ($app) {
-    $users = [
-        'admin' => array(
-            'roles' => array('ROLE_ADMIN'),
-            // raw password is foo
-            'password' => '5FZ2Z8QIkA7UTZ4BYkoC+GsReLf569mSKDsfods6LYQ8t+a8EW9oaircfMpmaLbPBh4FOBiiFyLfuZmTSUwzZg==',
-            'enabled' => true
-        ),
-    ];
-
-    return new InMemoryUserProvider($users);
+    return new DatabaseUserProvider($app);
 };
 
 $app->register(new Silex\Provider\SecurityServiceProvider());
